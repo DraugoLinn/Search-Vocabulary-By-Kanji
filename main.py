@@ -6,7 +6,7 @@ vocabList = []
 kana = []
 allowedRegEx = ""
 kanaRegEx = ""
-endlist = [[]]
+endlist = [["Kanji", "Type"]]
 typeWord = ""
 with open('known-kanji.csv', 'r') as csv_file:
     csv_reader = csv.reader(csv_file)
@@ -49,3 +49,9 @@ with open('output.csv', 'w') as newfile:
     linewrite = csv.writer(newfile, delimiter=',')
     for line in endlist:
         linewrite.writerow(line)
+#print(endlist[1][1])
+with open('outputKnownOnly.csv', 'w') as newfile:
+    linewrite = csv.writer(newfile, delimiter=',')
+    for line in endlist:
+        if line[1] == "word with all kanji known" or "Type":
+            linewrite.writerow(line)
