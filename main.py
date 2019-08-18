@@ -53,5 +53,6 @@ with open('output.csv', 'w') as newfile:
 with open('outputKnownOnly.csv', 'w') as newfile:
     linewrite = csv.writer(newfile, delimiter=',')
     for line in endlist:
-        if line[1] == "word with all kanji known" or "Type":
+        if line[1] == "word with all kanji known" or line[1] == "Type":
+            print(line)
             linewrite.writerow(line)
