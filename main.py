@@ -33,7 +33,6 @@ for list in kana:
 for list in vocabList:
     kanaOnly = bool(re.match("^[" + kanaRegEx + "]+$", list))
     kanjiKnown = bool(re.match("^[" + allowedRegEx + "]+$", list))
-    endlist.append([list, ])
 
 
     if kanaOnly == True:
@@ -43,6 +42,10 @@ for list in vocabList:
             typeWord = "word with all kanji known"
         else:
             typeWord = "word with unknown kanji"
-    print(list, typeWord)
+    #print(list, typeWord)
     endlist.append([list, typeWord])
 # print(endlist)
+with open('output.csv', 'w') as newfile:
+    linewrite = csv.writer(newfile, delimiter=',')
+    for line in endlist:
+        linewrite.writerow(line)
