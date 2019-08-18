@@ -6,6 +6,8 @@ vocabList = []
 kana = []
 allowedRegEx = ""
 kanaRegEx = ""
+endlist = [[]]
+typeWord = ""
 with open('known-kanji.csv', 'r') as csv_file:
     csv_reader = csv.reader(csv_file)
     for line in csv_reader:
@@ -31,10 +33,16 @@ for list in kana:
 for list in vocabList:
     kanaOnly = bool(re.match("^[" + kanaRegEx + "]+$", list))
     kanjiKnown = bool(re.match("^[" + allowedRegEx + "]+$", list))
+    endlist.append([list, ])
+
+
     if kanaOnly == True:
-        print(list, " kana only word")
+        typeWord = "kana only word"
     else:
         if kanjiKnown == True:
-            print(list, " word with all kanji known")
+            typeWord = "word with all kanji known"
         else:
-            print(list, " word with unknown kanji")
+            typeWord = "word with unknown kanji"
+    print(list, typeWord)
+    endlist.append([list, typeWord])
+# print(endlist)
