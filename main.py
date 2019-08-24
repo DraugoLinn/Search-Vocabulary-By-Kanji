@@ -7,6 +7,7 @@ del arguments[0]
 inKanji = "known-kanji.csv"
 inWord = "wordlist.csv"
 outFile = "output.csv"
+exportType = "all"
 for a in arguments:
     if a[:2] == "k:":
         inKanji = a[2:]
@@ -14,6 +15,8 @@ for a in arguments:
         inWord = a[2:]
     if a[:2] == "o:":
         outFile = a[2:]
+    if a[:2] == "t:":
+        exportType = a[2:]
 allowedCharacers = []
 vocabList = [["Word", "kana"]]
 kana = []
@@ -46,29 +49,37 @@ for list in kana:
 for list in vocabList:
     kanaOnly = bool(re.match("^[" + kanaRegEx + "]+$", list[0]))
     kanjiKnown = bool(re.match("^[" + allowedRegEx + "]+$", list[0]))
-
-
     if kanaOnly == True:
         typeWord = "kana only word"
     else:
         if kanjiKnown == True:
             typeWord = "word with all kanji known"
+        elif list[0] == "Word":
+            typeWord = "type"
         else:
             typeWord = "word with unknown kanji"
-    #print(list, typeWord)
+
     endlist.append([list[0], list[1], typeWord])
-# print(endlist)
+
 del endlist[0]
 with open(outFile, 'w') as newfile:
     linewrite = csv.writer(newfile, delimiter=',')
-    for line in endlist:
-        linewrite.writerow(line)
-'''
-with open('outputKnownOnly.csv', 'w') as newfile:
-    linewrite = csv.writer(newfile, delimiter=',')
-    for line in endlist:
-        if line[1] == "word with all kanji known" or line[1] == "Type":
-#            print(line)
+    if exportType == "all":
+        for line in endlist:
             linewrite.writerow(line)
-'''
-#print(endlist)
+    elif exportType == "alk":
+        for line in endlist:
+            if line[2] == "word with all kanji known" or line[0] == "Word":
+                linewrite.writerow(line)
+    elif exportType == "ku":
+        for line in endlist:
+            if line[2] == "word with unknown kanji" or line[0] == "Word":
+                linewrite.writerow(line)
+    elif exportType == "ko":
+        for line in endlist:
+            if line[2] == "kana only word" or line[0] == "Word":
+                linewrite.writerow(line)
+    else:
+        print("Unknown export type, type set to all")
+        for line in endlist:
+            linewrite.writerow(line)
