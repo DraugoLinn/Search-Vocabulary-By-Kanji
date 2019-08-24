@@ -7,7 +7,7 @@ How to use:
 ```
 File names without spaces.
 
-Any argument can be ommited.
+Any argument can be omitted.
 Default values for arguments are:
 - k: known-kanji.csv
 - w: wordlist.csv
